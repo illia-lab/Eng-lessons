@@ -1,0 +1,27 @@
+{
+  "name": "eng-lessons",
+  "version": "1.0.0",
+  "description": "Learning of the TAF/JS",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha 'specs/**/*.spec.ts' --require ts-node/register"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/illia-lab/Eng-lessons.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/illia-lab/Eng-lessons/issues"
+  },
+  "homepage": "https://github.com/illia-lab/Eng-lessons#readme",
+  "dependencies": {
+    "@types/chai": "^4.3.5",
+    "@types/mocha": "^10.0.1",
+    "chai": "^4.3.8",
+    "mocha": "^10.2.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
+  }
+}
