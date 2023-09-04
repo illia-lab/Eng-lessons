@@ -23,7 +23,10 @@ class Element extends Base {
     console.log(`${this.constructor.name} ${this.selector} ${this.name}`);
   }
   get() {
-return `${this.constructor.name} ${this.selector} ${this.name}`
+    return `${this.constructor.name} ${this.selector} ${this.name}`;
+  }
+  click() {
+    return `${this.constructor.name} ${this.selector} ${this.name}`;
   }
 }
 
@@ -33,14 +36,43 @@ class Page extends Base {
   fieldEmail: Element;
   constructor(selector: string, name: string) {
     super(selector, name);
-    this.fieldEmail = new Element('#email','User email' )
-    this.fieldPassword = new Element('#password','User password' )
-    this.fieldName = new Element('#name','User name' )
+    this.fieldEmail = new Element('#email', 'User email');
+    this.fieldPassword = new Element('#password', 'User password');
+    this.fieldName = new Element('#name', 'User name');
+  }
+  get(requiredFieldsData: { fieldEmail?: null; fieldPassword?: null; fieldName?: null }): {
+    fieldName?: string;
+    fieldPassword?: string;
+    fieldEmail?: string;
+  } {
+    const keys = Object.keys(requiredFieldsData);
+
+    const data = {};
+
+    for (const key of keys) {
+      data[key] = this[key].get();
+    }
+    return data;
   }
 }
 
 describe('Class propertions interactions', () => {
-  it.only('obj properties get prop value', () => {
+  it('get class properties info based on required fields', () => {
+    const pageFirst = new Page('#main_page', 'Main page');
+    const result = pageFirst.get({ fieldName: null });
+    expect(result).to.deep.equal({ fieldName: "Element #name User name" });
+    console.log(result);
+  });
+
+  it('assign obj props via variables', () => {
+    const obj: { [key: string]: any } = {};
+    const var1 = 'myField';
+    obj[var1] = 1;
+    obj.fn = 12;
+    console.log(obj);
+  });
+
+  it('getting obj prop names and log them one by one', () => {
     const obj = {
       first: 1,
       second: 'some str',
@@ -57,10 +89,17 @@ describe('Class propertions interactions', () => {
     const obj = {
       first: 1,
       second: 'some str',
+      third: {
+        logMe: () => {
+          console.log('!!!!!!!!!!!!!!');
+        },
+      },
     };
     const propName1 = 'first';
     const propName2 = 'second';
-    console.log(obj[propName1]);
-    console.log(obj[propName2]);
+    const propName3 = 'third';
+    // console.log(obj[propName1]);
+    // console.log(obj[propName2]);
+    obj[propName3].logMe();
   });
 });

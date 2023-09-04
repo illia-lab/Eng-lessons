@@ -4,7 +4,8 @@
   "description": "Learning of the TAF/JS",
   "main": "index.js",
   "scripts": {
-    "test": "mocha 'specs/**/*.spec.ts' --require ts-node/register"
+    "unit": "mocha 'specs/**/*.spec.ts' --require ts-node/register",
+    "test": "mocha 'tests/**/*.test.ts' --require ts-node/register --file ./launcher/index.ts --timeout 500000"
   },
   "repository": {
     "type": "git",
@@ -21,6 +22,8 @@
     "@types/mocha": "^10.0.1",
     "chai": "^4.3.8",
     "mocha": "^10.2.0",
+    "promod": "^1.9.4",
+    "sat-utils": "^1.12.2",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
   }
