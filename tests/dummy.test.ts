@@ -1,20 +1,26 @@
-import { browser, $, $$ } from '../lib';
-import { waitForCondition } from 'sat-utils';
+
+import {browser} from '../lib';
+
+import {Input,Button} from '../lib'
 
 describe('dummy web ui test suit', () => {
-	it('dummy web ui test', async () => {
-		const username = $('[placeholder="User name"]');
-		const password = $('[placeholder="Password"]');
-		const login = $('.modal button')
+	it.only('dummy web ui test', async () => {
 		const url = 'http://localhost:4000';
-		await browser.get(url);
-		await waitForCondition(async () => {
-			return (await username.isDisplayed()) && (await password.isDisplayed())
-		})
-		await username.sendKeys('admin')
-		await password.sendKeys('admin')
-		await login.click()
+		const userData = {username: 'admin', password: 'admin'}
+    const username = new Input('[placeholder="User name"]', 'User name field');
+    const password = new Input('[placeholder="Password"]', 'Password field');
+    const login = new Button('.modal button', 'Login button');
+    await browser.get(url);
 
-    await browser.sleep(25_000);
+    await username.sendKeys(userData.username);
+		await password.sendKeys(userData.password);
+
+
+   console.log(await username.get(), '<<<<<<<< USER NAME TEXT');
+   console.log(await password.get(), '<<<<<<<< PASSWORD TEXT');
+   console.log(await login.get(), '<<<<<<<< LOGIN TEXT');
+
+
+    await browser.sleep(2500);
   });
 });
