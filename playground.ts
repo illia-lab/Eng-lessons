@@ -1,5 +1,6 @@
-// docker run - d - p 4000 / 4000 potapovdim / project - application: eng
+// docker run - d - p 4000:4000 potapovdim / project - application: eng
 
-const {ENGINE = 'pw'} = process.env;
+import {stringifyData} from 'sat-utils'
 
-console.log(ENGINE);
+console.log(JSON.stringify({field1: 1, field2: {nestedField: 2}}));
+

@@ -1,6 +1,7 @@
 import { Element } from "../base/base.element";
 import {PromodElementType} from "promod/built/interface";
-import { browser } from "../engine";
+import {browser} from "../engine";
+import { logInfo } from "../logging";
 
 class Input extends Element {
 	constructor(selector: string | PromodElementType, name: string) {
@@ -8,9 +9,12 @@ class Input extends Element {
 	}
 	async get() {
 		await this.waitForDisplay()
-		return await browser.executeScript((element) => {
+		logInfo(`Entity ${this.id} calls get`)
+		const result = await browser.executeScript((element) => {
 			return element.value;
-}, this.root.getEngineElement())
+		}, this.root.getEngineElement())
+		logInfo(`Entity ${this.id} get method result`, result)
+		return result
 	}
 }
 
