@@ -4,8 +4,8 @@ const { LOGGING } = process.env;
 
 function logInfo(message, data?) {
 	if (LOGGING) {
-		data = data || ''
-    console.log(`${message}`,wrapInRed(stringifyData(data)));
+		data = data || '';
+  console.log(`${message}`,wrapInRed(stringifyData(data)))
   }
 }
 

@@ -1,16 +1,17 @@
 import { expect } from 'chai';
 import { browser, $$ } from '../lib';
 
-import { Input, Button, Text } from '../lib';
+import { Input, Button, Text, Collection } from '../lib';
 
-describe('dummy web ui test suit', () => {
-  it('dummy web ui test', async () => {
+describe('Filters suite', () => {
+  it.only('[P] check that filter price work', async () => {
     const price = 808482;
     const url = 'http://localhost:4000';
     const userData = { username: 'admin', password: 'admin' };
     const username = new Input('[placeholder="User name"]', 'User name field');
     const password = new Input('[placeholder="Password"]', 'Password field');
     const login = new Button('.modal button', 'Login button');
+    const pricesList = new Collection('.active.price', 'Machine price', Text)
 
     //TODO refactor
     const machinesPrices = $$('.active.price');
@@ -24,14 +25,10 @@ describe('dummy web ui test suit', () => {
     await login.click();
     await filterPrice.sendKeys(price);
     await filterButton.click();
-    const result = await machinesPrices.map(async function(item, index) {
-      const price = new Text(item, `Price number ${index}`);
-
-return await price.get()
+    const result = await pricesList.get()
+    result.forEach(function (priceTextValue) {
+      expect(+priceTextValue <= price).to.equal(true);
     });
-    result.forEach(function(priceTextValue) {
-expect(+priceTextValue <= price).to.equal(true)
-    })
 
     await browser.sleep(5000);
   });
