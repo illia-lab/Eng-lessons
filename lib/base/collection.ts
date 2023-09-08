@@ -21,7 +21,8 @@ class Collection  {
 		const result = await this.roots.map(async function (item, index) {
       const price = new that.collectionItem(item, `${that.id} ${index}`);
 
-      return await price.get();
+			return await price.get();
+
     });
 		logInfo(`Entity ${this.id} get method result`, result)
 		return result;

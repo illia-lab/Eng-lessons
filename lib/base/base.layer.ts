@@ -38,8 +38,8 @@ class BaseLayer {
       },
       {
         timeout: 5000,
-        message: () => {
-          return `${that.constructor.name} ${that.id} should be displayed in DOM`;
+        message: (timeout, error = 'without unexpected errors') => {
+          return `${that.constructor.name} ${that.id} should be displayed in DOM timeout: ${timeout} error: ${error}`;
         },
       },
     );
