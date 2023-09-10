@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { browser, $$ } from '../lib';
-import { LoginFragment } from '../framework';
+import { MainPage } from '../framework';
 import { Input, Button, Text, Collection } from '../lib';
 import { FilterFragment } from '../framework';
 
@@ -12,14 +12,14 @@ describe('Filters suite', () => {
     const userData = { username: 'admin', password: 'admin' };
     const pricesList = new Collection('.active.price', 'Machine price', Text);
 
-    //TODO refactor
     const machinesPrices = $$('.active.price');
-    const loginForm = new LoginFragment();
+
+    const mainPage = new MainPage()
     const filters = new FilterFragment();
 
     await browser.get(url);
-    await loginForm.sendKeys({ username: userData.username, password: userData.password });
-    await loginForm.click({ login: null });
+    await mainPage.sendKeys({login: {username: userData.username, password: userData.password}});
+    await mainPage.click({login: {login: null}})
 
     await filters.sendKeys({ price: prices });
     await filters.click({ filterButton: null });

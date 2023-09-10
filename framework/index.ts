@@ -1,2 +1,2 @@
-export * from './pages/main/fragments'
+export * from './pages/main/page'
 export * from './pages/machines/fragments'

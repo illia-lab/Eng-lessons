@@ -1,8 +1,8 @@
-import type { PromodElementType } from "promod/built/interface";
-import {waitForCondition} from "sat-utils";
-import {logInfo} from '../logging/index'
-import { $,$$,browser } from "../engine";
-
+import type { PromodElementType, PromodElementsType } from 'promod/built/interface';
+import { waitForCondition } from 'sat-utils';
+import { logInfo } from '../logging/index';
+import { $ } from '../engine';
+import { Collection } from './collection';
 
 class BaseLayer {
   root: PromodElementType;
@@ -11,11 +11,26 @@ class BaseLayer {
   constructor(selector: string | PromodElementType, name: string) {
     this.root = typeof selector === 'string' ? $(selector) : selector;
     this.id = name;
-    logInfo('Creation of the entity', {root: this.root.selector, entityId: this.id})
+    logInfo('Creation of the entity', { root: this.root.selector, entityId: this.id });
+  }
+
+  init(selector: PromodElementType | PromodElementsType | string, name: string, Childitem, PossibleCollectionItem?) {
+    let requiredRoot;
+    if (Collection === Childitem) {
+      requiredRoot = typeof selector === 'string' ? this.root.$$(selector) : (selector as PromodElementsType);
+    } else {
+      requiredRoot = typeof selector === 'string' ? this.root.$(selector) : (selector as PromodElementType);
+    }
+
+    logInfo(`${this.constructor.name} ${this.id} creates nested child ${Childitem.name}`, {
+      root: requiredRoot.selector,
+      entityId: name,
+    });
+    return new Childitem(requiredRoot, name, PossibleCollectionItem);
   }
 
   async waitForPresent() {
-    logInfo(`Entity ${this.id} is waiting for present`)
+    logInfo(`Entity ${this.id} is waiting for present`);
     const that = this;
     await waitForCondition(
       async () => {
@@ -30,7 +45,7 @@ class BaseLayer {
     );
   }
   async waitForDisplay() {
-    logInfo(`Entity ${this.id} is waiting for display`)
+    logInfo(`Entity ${this.id} is waiting for display`);
     const that = this;
     await waitForCondition(
       async () => {
@@ -46,4 +61,4 @@ class BaseLayer {
   }
 }
 
-export {BaseLayer}
+export { BaseLayer };
