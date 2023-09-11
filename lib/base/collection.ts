@@ -15,13 +15,13 @@ class Collection  {
     logInfo('Creation of the entity', {root: this.roots.selector, entityId: this.id})
 	}
 
-	async get() {
+	async get(requiredFieldsData?) {
 		logInfo(`Entity ${this.id} calls get`)
 		const that = this
 		const result = await this.roots.map(async function (item, index) {
       const price = new that.collectionItem(item, `${that.id} ${index}`);
 
-			return await price.get();
+			return await price.get(requiredFieldsData);
 
     });
 		logInfo(`Entity ${this.id} get method result`, result)

@@ -2,34 +2,33 @@ import { expect } from 'chai';
 import { browser, $$ } from '../lib';
 import { MainPage } from '../framework';
 import { Input, Button, Text, Collection } from '../lib';
-import { FilterFragment } from '../framework';
+import { MachinesPage } from '../framework';
 
 describe('Filters suite', () => {
   it.only('[P] check that filter price work', async () => {
-    //TODO refactor fragments usage
-    const prices = 808482;
+    const prices = 1430200.44;
     const url = 'http://localhost:4000';
     const userData = { username: 'admin', password: 'admin' };
-    const pricesList = new Collection('.active.price', 'Machine price', Text);
 
     const machinesPrices = $$('.active.price');
 
-    const mainPage = new MainPage()
-    const filters = new FilterFragment();
+    const mainPage = new MainPage();
+    const machinesPage = new MachinesPage();
 
     await browser.get(url);
-    await mainPage.sendKeys({login: {username: userData.username, password: userData.password}});
-    await mainPage.click({login: {login: null}})
 
-    await filters.sendKeys({ price: prices });
-    await filters.click({ filterButton: null });
+    await mainPage.sendKeys({ login: { username: userData.username, password: userData.password } });
+    await mainPage.click({ login: { login: null } });
 
-    const result = await pricesList.get();
-    console.log(result);
-    result.forEach(function (priceTextValue) {
-      expect(+priceTextValue <= prices).to.equal(true);
+    machinesPage.sendKeys({ filter: { price: prices } });
+    machinesPage.click({ filter: { filter: null } });
+
+    const result = await machinesPage.get({machinesList: {price: null}});
+
+    console.log(result, 'RESULT');
+
+    result.machinesList.forEach(function(machineRow) {
+      expect(+machineRow.price <= prices).to.equal(true)
     });
-
-    await browser.sleep(5000);
   });
 });

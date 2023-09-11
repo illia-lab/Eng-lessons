@@ -30,7 +30,7 @@ class BasePage extends BaseLayer {
       await this[key].click(requiredFieldsData[key]);
     }
   }
-  async get(requiredFieldsData) {
+  async get(requiredFieldsData): Promise <{[k: string]: any}> {
     logInfo(`Entity ${this.id} calls get`);
     await this.waitForPresent();
 
@@ -39,7 +39,7 @@ class BasePage extends BaseLayer {
     const result = {};
 
     for (const key of keys) {
-      result[key] = await this[key].get();
+      result[key] = await this[key].get(requiredFieldsData[key]);
     }
     logInfo(`Entity ${this.id} get method result`, result);
     return result;
