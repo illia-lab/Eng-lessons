@@ -1,7 +1,6 @@
-import { PromodElementType, PromodElementsType } from 'promod/built/interface';
+import { PromodElementType } from 'promod/built/interface';
 import { BaseLayer } from './base.layer';
 import {logInfo} from '../logging/index';
-import { Collection } from './collection';
 
 class BasePage extends BaseLayer {
   constructor(selector: string | PromodElementType, name: string) {
@@ -42,6 +41,19 @@ class BasePage extends BaseLayer {
       result[key] = await this[key].get(requiredFieldsData[key]);
     }
     logInfo(`Entity ${this.id} get method result`, result);
+    return result;
+  }
+  async isDysplayed(requiredFieldsData) {
+    logInfo(`Entity ${this.id} calls is dysplayed`);
+
+    const keys = Object.keys(requiredFieldsData);
+
+    const result = {};
+
+    for (const key of keys) {
+      result[key] = await this[key].isDysplayed(requiredFieldsData[key]);
+    }
+    logInfo(`Entity ${this.id} is dysplayed method result`, result);
     return result;
   }
 }

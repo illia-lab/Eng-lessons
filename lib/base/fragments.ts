@@ -37,11 +37,41 @@ class BaseFragment extends BaseLayer {
     const result = {};
 
     for (const key of keys) {
-      result[key] = await this[key].get();
+      result[key] = await this[key].get(requiredFieldsData[key]);
     }
     logInfo(`Entity ${this.id} get method result`, result);
     return result;
   }
+  async isDysplayed(requiredFieldsData) {
+    logInfo(`Entity ${this.id} calls is dysplayed`);
+
+    const keys = Object.keys(requiredFieldsData);
+
+    const result = {};
+
+    for (const key of keys) {
+      result[key] = await this[key].isDysplayed(requiredFieldsData[key]);
+    }
+    logInfo(`Entity ${this.id} is dysplayed method result`, result);
+    return result;
+  }
+  async isSameContent(requiredFieldsData) {
+    logInfo(`Entity ${this.id} calls is same content`);
+    await this.waitForPresent();
+
+    const keys = Object.keys(requiredFieldsData);
+
+
+    for (const key of keys) {
+      const nestedChildResult = await this[key].isSameContent(requiredFieldsData[key]);
+      if (!nestedChildResult) {
+        logInfo(`Entity ${this.id} is same content method result`, false);
+        return false;
+}
+    }
+    logInfo(`Entity ${this.id} is same content method result`, true);
+    return true;
+}
 }
 
 export { BaseFragment };
