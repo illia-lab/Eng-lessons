@@ -19,7 +19,7 @@ describe('Filters suite', () => {
     machinesPage.click({ filter: { filter: null } });
 
     const result = await machinesPage.get({
-      machinesList: { _where: { manufacturer: 'Demi-mix' }, _action: { price: null } },
+      machinesList: { _where: { manufacturer: 'Demi-mix' }, _action: {manufacturer:null, price: null } },
     });
 
     console.log(result.machinesList.length);
