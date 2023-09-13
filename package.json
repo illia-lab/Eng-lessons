@@ -23,6 +23,7 @@
     "chai": "^4.3.8",
     "mocha": "^10.2.0",
     "promod": "^1.9.4",
+    "promod-system": "^2.8.0-rc",
     "sat-utils": "^1.12.2",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2"

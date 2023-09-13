@@ -24,9 +24,9 @@ class BaseFragment extends BaseLayer {
 
     const keys = Object.keys(requiredFieldsData);
 
-		for (const key of keys) {
-			await this[key].click(requiredFieldsData[key]);
-		}
+    for (const key of keys) {
+      await this[key].click(requiredFieldsData[key]);
+    }
   }
   async get(requiredFieldsData) {
     logInfo(`Entity ${this.id} calls get`);
@@ -42,7 +42,7 @@ class BaseFragment extends BaseLayer {
     logInfo(`Entity ${this.id} get method result`, result);
     return result;
   }
-  async isDysplayed(requiredFieldsData) {
+  async d(requiredFieldsData) {
     logInfo(`Entity ${this.id} calls is dysplayed`);
 
     const keys = Object.keys(requiredFieldsData);
@@ -50,7 +50,7 @@ class BaseFragment extends BaseLayer {
     const result = {};
 
     for (const key of keys) {
-      result[key] = await this[key].isDysplayed(requiredFieldsData[key]);
+      result[key] = await this[key].d(requiredFieldsData[key]);
     }
     logInfo(`Entity ${this.id} is dysplayed method result`, result);
     return result;
@@ -61,17 +61,33 @@ class BaseFragment extends BaseLayer {
 
     const keys = Object.keys(requiredFieldsData);
 
-
     for (const key of keys) {
       const nestedChildResult = await this[key].isSameContent(requiredFieldsData[key]);
       if (!nestedChildResult) {
         logInfo(`Entity ${this.id} is same content method result`, false);
         return false;
-}
+      }
     }
     logInfo(`Entity ${this.id} is same content method result`, true);
     return true;
-}
+  }
+  async isSameVisibility(requiredFieldsData) {
+    logInfo(`Entity ${this.id} calls is same visibility`);
+
+    await this.waitForPresent();
+
+    const keys = Object.keys(requiredFieldsData);
+
+    for (const key of keys) {
+      const nestedChildResult = await this[key].isSameVisibility(requiredFieldsData[key]);
+      if (!nestedChildResult) {
+        logInfo(`Entity ${this.id} is same visibility method result`, false);
+        return false;
+      }
+    }
+    logInfo(`Entity ${this.id} is same visibility method result`, true);
+    return true;
+  }
 }
 
 export { BaseFragment };

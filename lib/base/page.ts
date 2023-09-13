@@ -43,7 +43,8 @@ class BasePage extends BaseLayer {
     logInfo(`Entity ${this.id} get method result`, result);
     return result;
   }
-  async isDysplayed(requiredFieldsData) {
+
+  async isDisplayed(requiredFieldsData): Promise <{[k: string]: any}> {
     logInfo(`Entity ${this.id} calls is dysplayed`);
 
     const keys = Object.keys(requiredFieldsData);
@@ -51,9 +52,9 @@ class BasePage extends BaseLayer {
     const result = {};
 
     for (const key of keys) {
-      result[key] = await this[key].isDysplayed(requiredFieldsData[key]);
+      result[key] = await this[key].isDisplayed(requiredFieldsData[key]);
     }
-    logInfo(`Entity ${this.id} is dysplayed method result`, result);
+    logInfo(`Entity ${this.id} get method result`, result);
     return result;
   }
 }

@@ -2,45 +2,103 @@ import type { PromodElementType, PromodElementsType } from 'promod/built/interfa
 import { waitForCondition } from 'sat-utils';
 import { logInfo } from '../logging/index';
 import { $, $$, browser } from '../engine';
-import { isNumber } from 'sat-utils';
+import { isNumber, isUndefined } from 'sat-utils';
+
+export type IWaitOpts = {};
+
+export type CollectionActionType<Where = any, Visible = any, Action = any> = {
+  _action?: Action;
+  _where?: Where;
+  _visible?: Visible;
+  _index?: number;
+};
+
+export type CollectionWaitingType = {};
 
 class Collection {
-	roots: PromodElementsType;
-	id: string;
-	collectionItem;
-	constructor(selector: string | PromodElementsType, name: string, CollectionItem) {
-		this.roots = typeof selector === 'string' ? $$(selector) : selector;
-		this.id = name;
-		this.collectionItem = CollectionItem;
-		logInfo('Creation of the entity', {root: this.roots.selector, entityId: this.id});
-	}
+  roots: PromodElementsType;
+  id: string;
+  instanceType;
+  constructor(selector: string | PromodElementsType, name: string, CollectionItem) {
+    this.roots = typeof selector === 'string' ? $$(selector) : selector;
+    this.id = name;
+    this.instanceType = CollectionItem;
 
-	async isDysplayed(entryData: {[k: string]: any} = {}) {
-		const {_action = null, _where, _index} = entryData;
-		logInfo(`Entity ${this.id} calls get`);
-		const that = this;
-		const rootElementAmount = await this.roots.count();
-		let result;
-		if (isNumber(_index) && rootElementAmount - 1 < _index) {
-			throw new Error(
-				` Collection entity ${this.id} does not have so many items,current amount is ${rootElementAmount}`,
-			);
-		} else if (isNumber(_index)) {
-			const collectionItem = new that.collectionItem(this.roots.get(_index), `${that.id} ${_index}`);
+    logInfo('Creation of the entity', { root: this.roots.selector, entityId: this.id });
+  }
 
-			const getResult = await collectionItem.isDisplayed(_action);
+  private async getRequiredChildren({ _index, _where, _visible }: { [k: string]: any } = {}, firstOnly?: boolean) {
+    const rootAmount = await this.roots.count();
+    const requiredNestedChildren: any[] = [];
 
-			result = [getResult];
-		}
-		else {
-			result = await this.roots.map(async function(item, index) {
-				const collectionItem = new that.collectionItem(item, `${that.id} ${index}`);
+    if (isNumber(_index && rootAmount - 1 < _index)) {
+      throw new Error(`Collection entity ${this.id} does not have so many items,current amount is ${rootAmount}`);
+    } else if (isNumber(_index)) {
+      const collectionItem = new this.instanceType(this.roots.get(_index), `${this.id} ${_index}`);
+      requiredNestedChildren.push(collectionItem);
+    } else if (!isUndefined(_where) && !isUndefined(_visible)) {
+      for (let i = 0; i < rootAmount; i++) {
+        const collectionItem = new this.instanceType(this.roots.get(i), `${this.id} ${i}`);
+        if ((await collectionItem.isSameContent(_where)) && (await collectionItem.isSameVisibility(_visible))) {
+          requiredNestedChildren.push(collectionItem);
 
-				return await collectionItem.isDisplayed(_action);
-			});
-		}
-    logInfo(`Entity ${this.id} get method result`, result);
+          if (firstOnly) {
+            return requiredNestedChildren;
+          }
+        }
+      }
+    } else if (!isUndefined(_where)) {
+      for (let i = 0; i < rootAmount; i++) {
+        const collectionItem = new this.instanceType(this.roots.get(i), `${this.id} ${i}`);
+        if (await collectionItem.isSameContent(_where)) {
+          requiredNestedChildren.push(collectionItem);
+
+          if (firstOnly) {
+            return requiredNestedChildren;
+          }
+        }
+      }
+    } else if (!isUndefined(_visible)) {
+      for (let i = 0; i < rootAmount; i++) {
+        const collectionItem = new this.instanceType(this.roots.get(i), `${this.id} ${i}`);
+        if (await collectionItem.isSameVisibility(_visible)) {
+          requiredNestedChildren.push(collectionItem);
+
+          if (firstOnly) {
+            return requiredNestedChildren;
+          }
+        }
+      }
+    } else {
+      for (let i = 0; i < rootAmount; i++) {
+        const collectionItem = new this.instanceType(this.roots.get(i), `${this.id} ${i}`);
+        requiredNestedChildren.push(collectionItem);
+
+        if (firstOnly) {
+          return requiredNestedChildren;
+        }
+      }
+    }
+    return requiredNestedChildren;
+  }
+
+  async d(entryData: { [k: string]: any } = {}) {
+    const { _action = null, ...rest } = entryData;
+    logInfo(`Entity ${this.id} calls is displayed`);
+    const children = await this.getRequiredChildren(rest);
+
+    const result: any[] = [];
+    for (const child of children) {
+      result.push(await child.d(_action));
+    }
+    logInfo(`Entity ${this.id} is displayed  method result`, result);
     return result;
+  }
+  async click(entryData: { [k: string]: any } = {}) {
+    const { _action = null, ...rest } = entryData;
+    logInfo(`Entity ${this.id} calls click`);
+    const [child] = await this.getRequiredChildren(rest, true);
+    await child.click(_action);
   }
 
   /**
@@ -53,32 +111,32 @@ class Collection {
     const that = this;
     const rootElementAmount = await this.roots.count();
     let result;
-    if (isNumber(_index) && rootElementAmount -1 < _index) {
+    if (isNumber(_index) && rootElementAmount - 1 < _index) {
       throw new Error(
         ` Collection entity ${this.id} does not have so many items,current amount is ${rootElementAmount}`,
       );
     } else if (isNumber(_index)) {
-      const collectionItem = new that.collectionItem(this.roots.get(_index), `${that.id} ${_index}`);
+      const collectionItem = new that.instanceType(this.roots.get(_index), `${that.id} ${_index}`);
 
       const getResult = await collectionItem.get(_action);
 
-      result =  [getResult];
-		} else if (_where) {
-			const requiredNestedChildren: any[] = []
-			for (let i = 0; i < rootElementAmount; i++){
-				const collectionItem = new that.collectionItem(this.roots.get(i), `${that.id}, ${i}`);
-				if (await collectionItem.isSameContent(_where)) {
-					requiredNestedChildren.push(collectionItem)
-				}
-			}
-			const results: any[] = [];
-			for (const collectionItem of requiredNestedChildren) {
-				results.push(await collectionItem.get(_action))
-			}
-			result = results
-		} else {
-       result = await this.roots.map(async function (item, index) {
-        const collectionItem = new that.collectionItem(item, `${that.id} ${index}`);
+      result = [getResult];
+    } else if (_where) {
+      const requiredNestedChildren: any[] = [];
+      for (let i = 0; i < rootElementAmount; i++) {
+        const collectionItem = new that.instanceType(this.roots.get(i), `${that.id}, ${i}`);
+        if (await collectionItem.isSameContent(_where)) {
+          requiredNestedChildren.push(collectionItem);
+        }
+      }
+      const results: any[] = [];
+      for (const collectionItem of requiredNestedChildren) {
+        results.push(await collectionItem.get(_action));
+      }
+      result = results;
+    } else {
+      result = await this.roots.map(async function (item, index) {
+        const collectionItem = new that.instanceType(item, `${that.id} ${index}`);
 
         return await collectionItem.get(_action);
       });

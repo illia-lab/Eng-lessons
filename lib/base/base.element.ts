@@ -41,7 +41,7 @@ class Element extends BaseLayer {
 
   async isDisplayed() {
 
-    logInfo(`Entity ${this.id} calls isDysplayed`)
+    logInfo(`Entity ${this.id} calls isDisplayed`)
    return await this.root.isDisplayed();
   }
 }

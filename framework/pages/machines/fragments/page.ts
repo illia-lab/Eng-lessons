@@ -12,7 +12,7 @@ class MachinesPage extends BasePage{
 		super('#table_page', 'Machines page')
 		this.header = this.init('.header', 'Header section', HeaderFragment )
 		this.filter = this.init('.filtering', 'Filter section', FilterFragment)
-		this.machinesList = this.init('table.table-bordered:nth-child(2) > tbody:nth-child(2) > tr','Machine row', Collection, MachineRowFragment)
+		this.machinesList = this.init('table.table-bordered:nth-child(2) > tbody:nth-child(2) > tr','Machine row list', Collection, MachineRowFragment)
 	}
 }
 
