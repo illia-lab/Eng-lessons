@@ -82,7 +82,7 @@ class Collection {
     return requiredNestedChildren;
   }
 
-  async d(entryData: { [k: string]: any } = {}) {
+  async isDysplayed(entryData: { [k: string]: any } = {}) {
     const { _action = null, ...rest } = entryData;
     logInfo(`Entity ${this.id} calls is displayed`);
     const children = await this.getRequiredChildren(rest);

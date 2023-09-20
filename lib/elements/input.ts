@@ -3,9 +3,9 @@ import { PromodElementType } from 'promod/built/interface';
 import { browser } from '../engine';
 import { logInfo } from '../logging';
 
-export type InputGetRes = boolean;
-export type InputIsDispRes = string;
-export type InputSendKeys = string;
+export type InputGetRes = string;
+export type InputIsDispRes = boolean;
+export type InputSendKeys = string | number;
 export type InputAction = null;
 
 class Input extends Element {

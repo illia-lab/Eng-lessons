@@ -17,14 +17,19 @@ class BaseFragment extends BaseLayer {
       await this[key].sendKeys(requiredFieldsData[key]);
     }
   }
+  /**
+   *
+   * { login: null }
+   */
   async click(requiredFieldsData) {
     logInfo(`Entity ${this.id} calls send keys`);
 
     await this.waitForPresent();
 
-    const keys = Object.keys(requiredFieldsData);
+    const keys = Object.keys(requiredFieldsData); // ['login']
 
     for (const key of keys) {
+      // await this['login'].click(null)
       await this[key].click(requiredFieldsData[key]);
     }
   }
@@ -38,11 +43,13 @@ class BaseFragment extends BaseLayer {
 
     for (const key of keys) {
       result[key] = await this[key].get(requiredFieldsData[key]);
+      console.log(requiredFieldsData);
+
+      logInfo(`Entity ${this.id} get method result`, result);
+      return result;
     }
-    logInfo(`Entity ${this.id} get method result`, result);
-    return result;
   }
-  async d(requiredFieldsData) {
+  async isDysplayed(requiredFieldsData) {
     logInfo(`Entity ${this.id} calls is dysplayed`);
 
     const keys = Object.keys(requiredFieldsData);
@@ -50,7 +57,7 @@ class BaseFragment extends BaseLayer {
     const result = {};
 
     for (const key of keys) {
-      result[key] = await this[key].d(requiredFieldsData[key]);
+      result[key] = await this[key].isDysplayed(requiredFieldsData[key]);
     }
     logInfo(`Entity ${this.id} is dysplayed method result`, result);
     return result;

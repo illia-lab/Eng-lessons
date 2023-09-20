@@ -3,9 +3,9 @@ import {PromodElementType} from "promod/built/interface";
 import {browser} from "../engine";
 import {logInfo} from '../logging/index'
 
-export type TextGetRes = boolean;
-export type TextIsDispRes = string;
-export type TextAction = string;
+export type TextGetRes = string;
+export type TextIsDispRes = boolean;
+export type TextAction = null;
 
 class Text extends Element{
 	constructor(selector: string | PromodElementType, name: string) {

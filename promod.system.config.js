@@ -1,4 +1,4 @@
-//@ts-check
+// @ts-check
 const baseElementsActionsDescription = {
   Input: {
     click: {
@@ -183,7 +183,7 @@ const resultActionsMap = {
   // waitForContentState: 'void',
 };
 
-const actionWithWaitOpts = ['waitForVisibilityState', 'waitForContentState'];
+const actionWithWaitOpts = []; // ['waitForVisibilityState', 'waitForContentState'];
 
 const prettyMethodName = {
   isDisplayed: 'get Visibility of',
@@ -200,13 +200,15 @@ const collectionRandomDataDescription = {
     action: '_visible',
     actionType: 'resultType',
   },
-  // _whereNot: {
-  //   action: '_where',
-  //   actionType: 'resultType',
-  // },
+  _whereNot: {
+    action: '_where',
+    actionType: 'resultType',
+  },
 };
 
-const promod = {};
+const promod = {
+  actionsDeclaration: 'declaration',
+};
 
 const collectionDescription = {
   action: '_action',
@@ -220,12 +222,11 @@ const collectionDescription = {
 
 const systemPropsList = [
   'index',
+  'rootLocator',
   'root',
   'roots',
-  'rootElements',
-  'rootLocator',
   'id',
-  'instanceType',
+  'InstanceType',
   'overrideElement',
   'parent',
   'loaderLocator',
@@ -268,7 +269,6 @@ module.exports = {
   baseLibraryDescription,
   collectionRandomDataDescription,
   resultActionsMap,
-  systemPropsList,
   actionWithWaitOpts,
   baseElementsActionsDescription,
   baseCollectionActionsDescription,
