@@ -27,15 +27,16 @@ class BasePage extends BaseLayer {
 
     await this.waitForPresent();
 
-    const keys = Object.keys(requiredFieldsData);  // ['header']
+    const keys = Object.keys(requiredFieldsData); // ['header']
 
-    for (const key of keys) { // -> on iteration due to an argument that has only one property "header"
+    for (const key of keys) {
+      // -> on iteration due to an argument that has only one property "header"
       // await this['header'].click({ login: null })
       await this[key].click(requiredFieldsData[key]);
     }
   }
 
-  async get(requiredFieldsData): Promise<{ [k: string]: any }> {
+  async get(requiredFieldsData): Promise<any> {
     logInfo(`Entity ${this.id} calls get`);
     await this.waitForPresent();
 
@@ -45,14 +46,13 @@ class BasePage extends BaseLayer {
 
     for (const key of keys) {
       result[key] = await this[key].get(requiredFieldsData[key]);
-
     }
 
     logInfo(`Entity ${this.id} get method result`, result);
     return result;
   }
 
-  async isDisplayed(requiredFieldsData): Promise<{ [k: string]: any }> {
+  async isDisplayed(requiredFieldsData): Promise<any> {
     logInfo(`Entity ${this.id} calls is dysplayed`);
 
     const keys = Object.keys(requiredFieldsData);
@@ -60,9 +60,7 @@ class BasePage extends BaseLayer {
     const result = {};
 
     for (const key of keys) {
-
       result[key] = await this[key].isDisplayed(requiredFieldsData[key]);
-
     }
 
     logInfo(`Entity ${this.id} get method result`, result);

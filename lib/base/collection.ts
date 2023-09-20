@@ -1,7 +1,7 @@
-import type { PromodElementType, PromodElementsType } from 'promod/built/interface';
-import { waitForCondition } from 'sat-utils';
+import type { PromodElementsType } from 'promod/built/interface';
+
 import { logInfo } from '../logging/index';
-import { $, $$, browser } from '../engine';
+import { $$ } from '../engine';
 import { isNumber, isUndefined } from 'sat-utils';
 
 export type IWaitOpts = {};

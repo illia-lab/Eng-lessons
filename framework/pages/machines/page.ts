@@ -11,6 +11,7 @@ class MachinesPage extends BasePage {
   adminPanel: AdminPanelFragment;
   constructor() {
     super('#table_page', 'Machines page');
+
     this.adminPanel = this.init('#admin_page', 'Admin panel section', AdminPanelFragment);
     this.header = this.init('.header', 'Header section', HeaderFragment);
     this.filter = this.init('.filtering', 'Filter section', FilterFragment);

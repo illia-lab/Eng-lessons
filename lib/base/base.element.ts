@@ -15,7 +15,7 @@ class Element extends BaseLayer {
     return result;
   }
 
-  async sendKeys(value: string | number) {
+  async sendKeys(value: any) {
     logInfo(`Entity ${this.id} calls send keys`, value);
     await this.waitForDisplay();
     await this.root.sendKeys(value);

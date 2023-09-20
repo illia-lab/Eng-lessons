@@ -7,6 +7,14 @@ import {
   ButtonAction,
   ButtonGetRes,
   ButtonIsDispRes,
+  InputAction,
+  InputGetRes,
+  InputIsDispRes,
+  InputSendKeys,
+  CheckBoxAction,
+  CheckBoxGetRes,
+  CheckBoxIsDispRes,
+  CheckBoxSendKeys,
   TextAction,
   TextGetRes,
   TextIsDispRes,
@@ -89,8 +97,26 @@ async function onAdminPanelPageGetRandomDataFromUserList<
 /** ====================== click ================== */
 
 type TadminPanelClick = {
-  addNewUser?: ButtonAction;
-  usersList?: ButtonAction;
+  addNewUserFrag?: {
+    addNewUserBtn?: ButtonAction;
+    username?: InputAction;
+    name?: InputAction;
+    email?: InputAction;
+    password?: InputAction;
+    adminCheckBox?: CheckBoxAction;
+    createNewUserButton?: ButtonAction;
+  };
+  usersListFrag?: {
+    user?: TextAction;
+    details?: ButtonAction;
+  };
+  adminUserForm?: {
+    userFormUserName?: InputAction;
+    userFormName?: InputAction;
+    userFormEmail?: InputAction;
+    userFormPassword?: InputAction;
+    userFormCheckBox?: CheckBoxAction;
+  };
 };
 type TadminPanelClickResult = void;
 async function onAdminPanelPageClickAdminPanelSection<Tentry extends TadminPanelClick>(
@@ -120,17 +146,63 @@ async function onAdminPanelPageClickUserList<Tentry extends TuserListClick>(
   return await page.click({ userList: data });
 }
 
+type TonAdminPanelPageClick = {
+  usersListBtn?: ButtonAction;
+};
+type TonAdminPanelPageClickResult = void;
+async function onAdminPanelPageClickPageElements<Tentry extends TonAdminPanelPageClick>(
+  data: Tentry,
+): Promise<TonAdminPanelPageClickResult> {
+  return await page.click(data);
+}
+
 /** ====================== click ================== */
 
 /** ====================== get ================== */
 
 type TadminPanelGet = {
-  addNewUser?: ButtonAction;
-  usersList?: ButtonAction;
+  addNewUserFrag?: {
+    addNewUserBtn?: ButtonAction;
+    username?: InputAction;
+    name?: InputAction;
+    email?: InputAction;
+    password?: InputAction;
+    adminCheckBox?: CheckBoxAction;
+    createNewUserButton?: ButtonAction;
+  };
+  usersListFrag?: {
+    user?: TextAction;
+    details?: ButtonAction;
+  };
+  adminUserForm?: {
+    userFormUserName?: InputAction;
+    userFormName?: InputAction;
+    userFormEmail?: InputAction;
+    userFormPassword?: InputAction;
+    userFormCheckBox?: CheckBoxAction;
+  };
 };
 type TadminPanelGetResult = {
-  addNewUser?: ButtonGetRes;
-  usersList?: ButtonGetRes;
+  addNewUserFrag?: {
+    addNewUserBtn?: ButtonGetRes;
+    username?: InputGetRes;
+    name?: InputGetRes;
+    email?: InputGetRes;
+    password?: InputGetRes;
+    adminCheckBox?: CheckBoxGetRes;
+    createNewUserButton?: ButtonGetRes;
+  };
+  usersListFrag?: {
+    user?: TextGetRes;
+    details?: ButtonGetRes;
+  };
+  adminUserForm?: {
+    userFormUserName?: InputGetRes;
+    userFormName?: InputGetRes;
+    userFormEmail?: InputGetRes;
+    userFormPassword?: InputGetRes;
+    userFormCheckBox?: CheckBoxGetRes;
+  };
 };
 async function onAdminPanelPageGetDataFromAdminPanelSection<Tentry extends TadminPanelGet>(
   data: Tentry,
@@ -164,17 +236,65 @@ async function onAdminPanelPageGetDataFromUserList<Tentry extends TuserListGet>(
   return userList;
 }
 
+type TonAdminPanelPageGet = {
+  usersListBtn?: ButtonAction;
+};
+type TonAdminPanelPageGetResult = {
+  usersListBtn?: ButtonGetRes;
+};
+async function onAdminPanelPageGetDataFromPageElements<Tentry extends TonAdminPanelPageGet>(
+  data: Tentry,
+): Promise<TresultBasedOnArgument<Tentry, TonAdminPanelPageGetResult>> {
+  return await page.get(data);
+}
+
 /** ====================== get ================== */
 
 /** ====================== isDisplayed ================== */
 
 type TadminPanelIsDisplayed = {
-  addNewUser?: ButtonAction;
-  usersList?: ButtonAction;
+  addNewUserFrag?: {
+    addNewUserBtn?: ButtonAction;
+    username?: InputAction;
+    name?: InputAction;
+    email?: InputAction;
+    password?: InputAction;
+    adminCheckBox?: CheckBoxAction;
+    createNewUserButton?: ButtonAction;
+  };
+  usersListFrag?: {
+    user?: TextAction;
+    details?: ButtonAction;
+  };
+  adminUserForm?: {
+    userFormUserName?: InputAction;
+    userFormName?: InputAction;
+    userFormEmail?: InputAction;
+    userFormPassword?: InputAction;
+    userFormCheckBox?: CheckBoxAction;
+  };
 };
 type TadminPanelIsDisplayedResult = {
-  addNewUser?: ButtonIsDispRes;
-  usersList?: ButtonIsDispRes;
+  addNewUserFrag?: {
+    addNewUserBtn?: ButtonIsDispRes;
+    username?: InputIsDispRes;
+    name?: InputIsDispRes;
+    email?: InputIsDispRes;
+    password?: InputIsDispRes;
+    adminCheckBox?: CheckBoxIsDispRes;
+    createNewUserButton?: ButtonIsDispRes;
+  };
+  usersListFrag?: {
+    user?: TextIsDispRes;
+    details?: ButtonIsDispRes;
+  };
+  adminUserForm?: {
+    userFormUserName?: InputIsDispRes;
+    userFormName?: InputIsDispRes;
+    userFormEmail?: InputIsDispRes;
+    userFormPassword?: InputIsDispRes;
+    userFormCheckBox?: CheckBoxIsDispRes;
+  };
 };
 async function onAdminPanelPageGetVisibilityOfAdminPanelSection<Tentry extends TadminPanelIsDisplayed>(
   data: Tentry,
@@ -208,9 +328,44 @@ async function onAdminPanelPageGetVisibilityOfUserList<Tentry extends TuserListI
   return userList;
 }
 
+type TonAdminPanelPageIsDisplayed = {
+  usersListBtn?: ButtonAction;
+};
+type TonAdminPanelPageIsDisplayedResult = {
+  usersListBtn?: ButtonIsDispRes;
+};
+async function onAdminPanelPageGetVisibilityOfPageElements<Tentry extends TonAdminPanelPageIsDisplayed>(
+  data: Tentry,
+): Promise<TresultBasedOnArgument<Tentry, TonAdminPanelPageIsDisplayedResult>> {
+  return await page.isDisplayed(data);
+}
+
 /** ====================== isDisplayed ================== */
 
 /** ====================== sendKeys ================== */
+
+type TadminPanelSendKeys = {
+  addNewUserFrag?: {
+    username?: InputSendKeys;
+    name?: InputSendKeys;
+    email?: InputSendKeys;
+    password?: InputSendKeys;
+    adminCheckBox?: CheckBoxSendKeys;
+  };
+  adminUserForm?: {
+    userFormUserName?: InputSendKeys;
+    userFormName?: InputSendKeys;
+    userFormEmail?: InputSendKeys;
+    userFormPassword?: InputSendKeys;
+    userFormCheckBox?: CheckBoxSendKeys;
+  };
+};
+type TadminPanelSendKeysResult = void;
+async function onAdminPanelPageSetValuesToAdminPanelSection<Tentry extends TadminPanelSendKeys>(
+  data: Tentry,
+): Promise<TadminPanelSendKeysResult> {
+  return await page.sendKeys({ adminPanel: data });
+}
 
 /** ====================== sendKeys ================== */
 
@@ -245,9 +400,13 @@ export {
   onAdminPanelPageGetRandomDataFromUserList,
   onAdminPanelPageClickAdminPanelSection,
   onAdminPanelPageClickUserList,
+  onAdminPanelPageClickPageElements,
   onAdminPanelPageGetDataFromAdminPanelSection,
   onAdminPanelPageGetDataFromUserList,
+  onAdminPanelPageGetDataFromPageElements,
   onAdminPanelPageGetVisibilityOfAdminPanelSection,
   onAdminPanelPageGetVisibilityOfUserList,
+  onAdminPanelPageGetVisibilityOfPageElements,
+  onAdminPanelPageSetValuesToAdminPanelSection,
   onAdminPanelPageGetCollectionFromUserList,
 };

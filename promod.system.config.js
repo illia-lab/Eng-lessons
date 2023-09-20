@@ -1,5 +1,33 @@
 // @ts-check
 const baseElementsActionsDescription = {
+  CheckBox: {
+    click: {
+      entryType: 'Action',
+    },
+    get: {
+      entryType: 'Action',
+      resultType: 'GetRes',
+    },
+    isDisplayed: {
+      entryType: 'Action',
+      resultType: 'IsDispRes',
+    },
+    sendKeys: {
+      entryType: 'SendKeys',
+    },
+    // waitForVisibilityState: {
+    //   entryType: 'IsDispRes',
+    // },
+    // waitForContentState: {
+    //   entryType: 'GetRes',
+    // },
+    _where: {
+      resultType: 'GetRes',
+    },
+    _visible: {
+      resultType: 'IsDispRes',
+    },
+  },
   Input: {
     click: {
       entryType: 'Action',

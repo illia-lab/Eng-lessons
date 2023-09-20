@@ -1,13 +1,19 @@
 import { BaseFragment } from '../../../../lib';
-import { Input, Button } from '../../../../lib';
+import { Button} from '../../../../lib';
+import {UserListFragment} from './usersList.fragment';
+import {CreateNewUserFragment} from './create.new.user.fragment';
+import { AdminUserFromFragment } from './admin.user.for.fragment';
 
 class AdminPanelFragment extends BaseFragment {
-  addNewUser: Button;
-  usersList: Button;
+  addNewUserFrag: Button;
+  usersListFrag: UserListFragment;
+  adminUserForm: AdminUserFromFragment
   constructor(selector, name) {
     super(selector, name);
-    this.addNewUser = this.init('button:nth-child(1)', 'Add new user button', Button);
-    this.usersList = this.init('button:nth-child(2)', 'Users list button', Button);
+    this.addNewUserFrag = this.init('.admin_new_user', 'Add new user panel fragment', CreateNewUserFragment);
+    this.usersListFrag = this.init('.admin_user_list_root', 'Users list fragment', UserListFragment);
+    this.adminUserForm = this.init('.admin_user_form', 'admin user form fragment', AdminUserFromFragment);
+
   }
 }
 

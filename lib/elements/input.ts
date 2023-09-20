@@ -12,6 +12,7 @@ class Input extends Element {
   constructor(selector: string | PromodElementType, name: string) {
     super(selector, name);
   }
+
   async get() {
     await this.waitForDisplay();
     logInfo(`Entity ${this.id} calls get`);
