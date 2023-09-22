@@ -16,9 +16,12 @@ class Input extends Element {
   async get() {
     await this.waitForDisplay();
     logInfo(`Entity ${this.id} calls get`);
+
     const result = await browser.executeScript((element) => {
+      console.log('HELLO', element);
       return element.value;
     }, this.root.getEngineElement());
+
     logInfo(`Entity ${this.id} get method result`, result);
     return result;
   }

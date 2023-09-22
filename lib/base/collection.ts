@@ -28,52 +28,65 @@ class Collection {
   }
 
   private async getRequiredChildren({ _index, _where, _visible }: { [k: string]: any } = {}, firstOnly?: boolean) {
+    // кількість елементів по заданому селектору
     const rootAmount = await this.roots.count();
+    // const rootAmount = 10
+    // _index = 10
+
     const requiredNestedChildren: any[] = [];
 
+    //block(if) якщо сума елементів і індекса з мінусом 1 меньша за шуканий індекс кидаєм помилку
     if (isNumber(_index && rootAmount - 1 < _index)) {
-      throw new Error(`Collection entity ${this.id} does not have so many items,current amount is ${rootAmount}`);
+      throw new Error(`Collection entity ${this.id} does not have so many items, current amount is ${rootAmount}`);
+      //block(else if) якщо індекс це число ми шукаєм відповідний елемент нашому індексу а далі додаєм до масива елемент
     } else if (isNumber(_index)) {
       const collectionItem = new this.instanceType(this.roots.get(_index), `${this.id} ${_index}`);
       requiredNestedChildren.push(collectionItem);
+      //block(else if) якщо where is not undefined and visible is not undefined ми за допомогою цикла пробігаємося по сумі елементів і шукаємо останні елемент в масиві елементів
     } else if (!isUndefined(_where) && !isUndefined(_visible)) {
       for (let i = 0; i < rootAmount; i++) {
         const collectionItem = new this.instanceType(this.roots.get(i), `${this.id} ${i}`);
+        //block(if)
         if ((await collectionItem.isSameContent(_where)) && (await collectionItem.isSameVisibility(_visible))) {
           requiredNestedChildren.push(collectionItem);
-
+          //block(if)
           if (firstOnly) {
             return requiredNestedChildren;
           }
         }
       }
+      //block(else if)
     } else if (!isUndefined(_where)) {
       for (let i = 0; i < rootAmount; i++) {
         const collectionItem = new this.instanceType(this.roots.get(i), `${this.id} ${i}`);
+        //block(if)
         if (await collectionItem.isSameContent(_where)) {
           requiredNestedChildren.push(collectionItem);
-
+          //block(if)
           if (firstOnly) {
             return requiredNestedChildren;
           }
         }
       }
+      //block(else if)
     } else if (!isUndefined(_visible)) {
       for (let i = 0; i < rootAmount; i++) {
         const collectionItem = new this.instanceType(this.roots.get(i), `${this.id} ${i}`);
+        //block(if)
         if (await collectionItem.isSameVisibility(_visible)) {
           requiredNestedChildren.push(collectionItem);
-
+          //block(if)
           if (firstOnly) {
             return requiredNestedChildren;
           }
         }
       }
+      //block(else)
     } else {
       for (let i = 0; i < rootAmount; i++) {
         const collectionItem = new this.instanceType(this.roots.get(i), `${this.id} ${i}`);
         requiredNestedChildren.push(collectionItem);
-
+        //block(if)
         if (firstOnly) {
           return requiredNestedChildren;
         }

@@ -1,9 +1,9 @@
-import {seleniumWD, playwrightWD} from 'promod'
+import { seleniumWD, playwrightWD } from 'promod';
 
-const {ENGINE = 'pw'} = process.env;
+const { ENGINE = 'pw' } = process.env;
 
-const engine = ENGINE === 'pw' ? playwrightWD : seleniumWD
+const engine = ENGINE === 'pw' ? playwrightWD : seleniumWD;
 
-const {$, $$, browser, getDriver} = engine;
+const { $, $$, browser, getDriver } = engine;
 
-export {$,$$,browser,getDriver}
+export { $, $$, browser, getDriver };

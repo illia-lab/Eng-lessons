@@ -78,6 +78,7 @@ class BaseFragment extends BaseLayer {
     logInfo(`Entity ${this.id} is same content method result`, true);
     return true;
   }
+
   async isSameVisibility(requiredFieldsData) {
     logInfo(`Entity ${this.id} calls is same visibility`);
 

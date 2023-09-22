@@ -24,7 +24,10 @@ describe('Filters suite', () => {
 
     await I.onMachinesPageClickFilterSection({ filterButton: null });
 
-    console.log('!!!!!!!!!!!!!!');
+    await I.onMachinesPageClickMachineRowList({
+      _visible: { price: true, workVolume: false },
+      _where: { price: '10', weight: '15' },
+    });
 
     const results = await I.onMachinesPageGetSeveralRandomFieldValuesFromMachinesList('price', 10);
 
@@ -104,8 +107,10 @@ describe('Filters suite', () => {
     const result = await I.onAdminPanelPageGetDataFromAdminPanelSection({ adminUserForm: { userFormEmail: null } });
 
     const { adminUserForm } = await I.onAdminPanelPageGetDataFromAdminPanelSection({
-      adminUserForm: { userFormCheckBox: null, userFormName: null,userFormEmail:null,userFormPassword:null,userFormUserName:null },
+      adminUserForm: { userFormCheckBox: null },
     });
+    console.log(adminUserForm);
+
     await browser.sleep(5000);
   });
 });
