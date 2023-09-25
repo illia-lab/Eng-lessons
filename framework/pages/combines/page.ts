@@ -5,7 +5,7 @@ import { Collection } from '../../../lib/base/collection';
 class CombinesPage extends BasePage {
   combinesRow: CombineListRowFragment;
   constructor() {
-    super('#combains_page', 'Combines page');
+    super('#combines_page', 'Combines page');
 
     this.combinesRow = this.init('.dynamic_table_row', 'Combines Row', Collection, CombineListRowFragment);
   }

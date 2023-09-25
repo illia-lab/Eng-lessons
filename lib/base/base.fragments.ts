@@ -33,6 +33,7 @@ class BaseFragment extends BaseLayer {
       await this[key].click(requiredFieldsData[key]);
     }
   }
+
   async get(requiredFieldsData) {
     logInfo(`Entity ${this.id} calls get`);
     await this.waitForPresent();

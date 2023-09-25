@@ -85,7 +85,7 @@ describe('Filters suite', () => {
 
     expect(result.map(({ user }) => user?.trim()).includes(regData.username)).to.eq(true);
   });
-  it.only('Check that admin checkBox equals true', async () => {
+  it('Check that admin checkBox equals true', async () => {
     const userData = { username: 'admin', password: 'admin' };
     const url = 'http://localhost:4000';
     await browser.get(url);
@@ -105,6 +105,7 @@ describe('Filters suite', () => {
     await I.onAdminPanelPageClickUserList({ _action: { details: null } });
 
     const result = await I.onAdminPanelPageGetDataFromAdminPanelSection({ adminUserForm: { userFormEmail: null } });
+    console.log(result);
 
     const { adminUserForm } = await I.onAdminPanelPageGetDataFromAdminPanelSection({
       adminUserForm: { userFormCheckBox: null },
@@ -112,5 +113,110 @@ describe('Filters suite', () => {
     console.log(adminUserForm);
 
     await browser.sleep(5000);
+  });
+  it('check that combine row producerAndBrand info fit to the expected resultx', async () => {
+    const userData = { username: 'admin', password: 'admin' };
+    const url = 'http://localhost:4000';
+    await browser.get(url);
+
+    await I.onMainPageClickMainPageHeader({ login: null });
+
+    await I.onMainPageSetValuesToLoginForm({ username: userData.username, password: userData.password });
+
+    await I.onMainPageClickLoginForm({ login: null });
+
+    await I.onMachinesPageClickHeaderSection({ combines: null });
+
+    const combData = await I.onCombinesPageGetDataFromCombinesRow({ _action: { producerAndBrand: null }, _index: 2 });
+
+    console.log(combData);
+
+    const expectedRes = [{ producerAndBrand: 'Комбайн (Foton) DG200' }];
+
+    expect(combData).to.deep.equal(expectedRes);
+  });
+  it('check that combine row price info fit to the expected resultx', async () => {
+    const userData = { username: 'admin', password: 'admin' };
+    const url = 'http://localhost:4000';
+    await browser.get(url);
+
+    await I.onMainPageClickMainPageHeader({ login: null });
+
+    await I.onMainPageSetValuesToLoginForm({ username: userData.username, password: userData.password });
+
+    await I.onMainPageClickLoginForm({ login: null });
+
+    await I.onMachinesPageClickHeaderSection({ combines: null });
+
+    const combData = await I.onCombinesPageGetDataFromCombinesRow({ _action: { combinePrice: null }, _index: 2 });
+
+    console.log(combData);
+
+    const expectedRes = [{ combinePrice: '34836' }];
+
+    expect(combData).to.deep.equals(expectedRes);
+  });
+  it('check that combine row weight info fit to the expected resultx', async () => {
+    const userData = { username: 'admin', password: 'admin' };
+    const url = 'http://localhost:4000';
+    await browser.get(url);
+
+    await I.onMainPageClickMainPageHeader({ login: null });
+
+    await I.onMainPageSetValuesToLoginForm({ username: userData.username, password: userData.password });
+
+    await I.onMainPageClickLoginForm({ login: null });
+
+    await I.onMachinesPageClickHeaderSection({ combines: null });
+
+    const combData = await I.onCombinesPageGetDataFromCombinesRow({ _action: { combineMass: null }, _index: 2 });
+
+    console.log(combData);
+
+    const expectedRes = [{ combineMass: '9945' }];
+
+    expect(combData).to.deep.equals(expectedRes);
+  });
+  it('check that combine row height info fit to the expected resultx', async () => {
+    const userData = { username: 'admin', password: 'admin' };
+    const url = 'http://localhost:4000';
+    await browser.get(url);
+
+    await I.onMainPageClickMainPageHeader({ login: null });
+
+    await I.onMainPageSetValuesToLoginForm({ username: userData.username, password: userData.password });
+
+    await I.onMainPageClickLoginForm({ login: null });
+
+    await I.onMachinesPageClickHeaderSection({ combines: null });
+
+    const combData = await I.onCombinesPageGetDataFromCombinesRow({ _action: { combineHeight: null }, _index: 2 });
+
+    console.log(combData);
+
+    const expectedRes = [{ combineHeight: '6888' }];
+
+    expect(combData).to.deep.equals(expectedRes);
+  });
+  it('check that combine row class info fit to the expected resultx', async () => {
+    const userData = { username: 'admin', password: 'admin' };
+    const url = 'http://localhost:4000';
+    await browser.get(url);
+
+    await I.onMainPageClickMainPageHeader({ login: null });
+
+    await I.onMainPageSetValuesToLoginForm({ username: userData.username, password: userData.password });
+
+    await I.onMainPageClickLoginForm({ login: null });
+
+    await I.onMachinesPageClickHeaderSection({ combines: null });
+
+    const combData = await I.onCombinesPageGetDataFromCombinesRow({ _action: { combineClass: null }, _index: 0 });
+
+    console.log(combData);
+
+    const expectedRes = [{ combineClass: '7' }];
+
+    expect(combData).to.deep.equals(expectedRes);
   });
 });

@@ -42,7 +42,7 @@ class Collection {
     } else if (isNumber(_index)) {
       const collectionItem = new this.instanceType(this.roots.get(_index), `${this.id} ${_index}`);
       requiredNestedChildren.push(collectionItem);
-      //block(else if) якщо where is not undefined and visible is not undefined ми за допомогою цикла пробігаємося по сумі елементів і шукаємо останні елемент в масиві елементів
+      //block(else if) якщо _where is not undefined and _visible is not undefined ми за допомогою цикла пробігаємося по сумі елементів і шукаємо останні елемент в масиві елементів
     } else if (!isUndefined(_where) && !isUndefined(_visible)) {
       for (let i = 0; i < rootAmount; i++) {
         const collectionItem = new this.instanceType(this.roots.get(i), `${this.id} ${i}`);
