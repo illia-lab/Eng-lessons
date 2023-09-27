@@ -7,6 +7,7 @@ class Element extends BaseLayer {
   constructor(selector: string | PromodElementType, name: string) {
     super(selector, name);
   }
+
   async get() {
     logInfo(`Entity ${this.id} calls get`);
     await this.waitForDisplay();
@@ -29,6 +30,17 @@ class Element extends BaseLayer {
   async isSameContent(data) {
     logInfo(`Entity ${this.id} calls is same content`);
     const currentData = await this.get();
+
+    const { result, message } = compareToPattern(currentData, data, { stringIncludes: true });
+
+    logInfo(`Entity ${this.id} is same comparison results`, { result, message });
+
+    return result;
+  }
+
+  async isSameVisibility(data) {
+    logInfo(`Entity ${this.id} calls is same visibility`);
+    const currentData = await this.isDisplayed();
 
     const { result, message } = compareToPattern(currentData, data, { stringIncludes: true });
 

@@ -1,12 +1,9 @@
-import type { PromodElementsType } from 'promod/built/interface';
-
+import type {PromodElementType, PromodElementsType} from 'promod/built/interface';
 import { logInfo } from '../logging/index';
 import { $$ } from '../engine';
 import { isNumber, isUndefined } from 'sat-utils';
-
 export type IWaitOpts = {};
-
-export type CollectionActionType<Where = any, Visible = any, Action = any> = {
+export type CollectionActionType <Where = any, Visible = any, Action = any> = {
   _action?: Action;
   _where?: Where;
   _visible?: Visible;
@@ -21,7 +18,9 @@ class Collection {
   instanceType;
   constructor(selector: string | PromodElementsType, name: string, CollectionItem) {
     this.roots = typeof selector === 'string' ? $$(selector) : selector;
+
     this.id = name;
+
     this.instanceType = CollectionItem;
 
     logInfo('Creation of the entity', { root: this.roots.selector, entityId: this.id });
@@ -95,18 +94,19 @@ class Collection {
     return requiredNestedChildren;
   }
 
-  async isDysplayed(entryData: { [k: string]: any } = {}) {
+  async isDisplayed(entryData: { [k: string]: any } = {}) {
     const { _action = null, ...rest } = entryData;
     logInfo(`Entity ${this.id} calls is displayed`);
     const children = await this.getRequiredChildren(rest);
 
     const result: any[] = [];
     for (const child of children) {
-      result.push(await child.d(_action));
+      result.push(await child.isDisplayed(_action));
     }
     logInfo(`Entity ${this.id} is displayed  method result`, result);
     return result;
   }
+
   async click(entryData: { [k: string]: any } = {}) {
     const { _action = null, ...rest } = entryData;
     logInfo(`Entity ${this.id} calls click`);
@@ -119,43 +119,15 @@ class Collection {
    * get({ _where: {workVolume: '13'},_action: {price: null}})
    */
   async get(entryData: { [k: string]: any } = {}) {
-    const { _action = null, _where, _index } = entryData;
-    logInfo(`Entity ${this.id} calls get`);
-    const that = this;
-    const rootElementAmount = await this.roots.count();
-    let result;
-    if (isNumber(_index) && rootElementAmount - 1 < _index) {
-      throw new Error(
-        ` Collection entity ${this.id} does not have so many items,current amount is ${rootElementAmount}`,
-      );
-    } else if (isNumber(_index)) {
-      const collectionItem = new that.instanceType(this.roots.get(_index), `${that.id} ${_index}`);
+    const { _action = null, ...rest } = entryData;
+    logInfo(`Entity ${this.id} calls  get`);
+    const children = await this.getRequiredChildren(rest);
 
-      const getResult = await collectionItem.get(_action);
-
-      result = [getResult];
-    } else if (_where) {
-      const requiredNestedChildren: any[] = [];
-      for (let i = 0; i < rootElementAmount; i++) {
-        const collectionItem = new that.instanceType(this.roots.get(i), `${that.id}, ${i}`);
-        if (await collectionItem.isSameContent(_where)) {
-          requiredNestedChildren.push(collectionItem);
-        }
-      }
-      const results: any[] = [];
-      for (const collectionItem of requiredNestedChildren) {
-        results.push(await collectionItem.get(_action));
-      }
-      result = results;
-    } else {
-      result = await this.roots.map(async function (item, index) {
-        const collectionItem = new that.instanceType(item, `${that.id} ${index}`);
-
-        return await collectionItem.get(_action);
-      });
+    const result: any[] = [];
+    for (const child of children) {
+      result.push(await child.get(_action));
     }
-
-    logInfo(`Entity ${this.id} get method result`, result);
+    logInfo(`Entity ${this.id} get  method result`, result);
     return result;
   }
 }

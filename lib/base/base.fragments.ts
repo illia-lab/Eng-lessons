@@ -50,7 +50,7 @@ class BaseFragment extends BaseLayer {
       return result;
     }
   }
-  async isDysplayed(requiredFieldsData) {
+  async isDisplayed(requiredFieldsData) {
     logInfo(`Entity ${this.id} calls is dysplayed`);
 
     const keys = Object.keys(requiredFieldsData);
@@ -58,7 +58,7 @@ class BaseFragment extends BaseLayer {
     const result = {};
 
     for (const key of keys) {
-      result[key] = await this[key].isDysplayed(requiredFieldsData[key]);
+      result[key] = await this[key].isDisplayed(requiredFieldsData[key]);
     }
     logInfo(`Entity ${this.id} is dysplayed method result`, result);
     return result;
